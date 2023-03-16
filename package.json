@@ -1,0 +1,11 @@
+{
+  "name": "cypress-express-mark",
+  "version": "1.0.0",
+  "description": "E2E test project on Mark L",
+  "main": "index.js",
+  "author": "André Kreutzer",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "12.2.0"
+  }
+}
