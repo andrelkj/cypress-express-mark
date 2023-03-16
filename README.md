@@ -43,6 +43,18 @@ cy.get('#newTask')
 
 When css selectors are not well identified and/or structured we need to add selectors manually. Some good properties to consider as selector is placeholder and name.
 
+### Xpath
+
+Cypress do not support xpath selectors, although it has it's own functions to identify elements. For example:
+
+Considering the xpath `//button[contains(text(), "Create")]` to identify the Create button we would use cypress function:
+
+```
+cy.contains('button', 'Create').click()
+```
+
+This would not only find the locator but also execute the click function on it.
+
 # Terminal commands
 
 - `yarn init` - initialize node.js
