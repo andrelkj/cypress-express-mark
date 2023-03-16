@@ -29,6 +29,20 @@ describe('home', () => {
 - Using 'its' to create steps, each 'it' should refer to a single test case
 - Creating dependent test cases, each and every test case should be independent from one another
 
+### tasks.cy.js - input validation
+
+Cypress can find elements inside the page through css selector. Although for this to work properly the application must have a good css element selectors.
+
+In this example cypress found the input field by its id:
+
+```
+cy.get('#newTask')
+```
+
+**OBS.:** # is used to identify elements by id.
+
+When css selectors are not well identified and/or structured we need to add selectors manually. Some good properties to consider as selector is placeholder and name.
+
 # Terminal commands
 
 - `yarn init` - initialize node.js
