@@ -43,6 +43,10 @@ cy.get('#newTask')
 
 When css selectors are not well identified and/or structured we need to add selectors manually. Some good properties to consider as selector is placeholder and name.
 
+#### Faker
+
+Faker can be used to generate dynamic random data which solve the repetitive and fixed data problem, although it now generates a new issue once it generate massive entries of information and at least for now do not meet our requirements to fill the input with tasks.
+
 ### Xpath
 
 Cypress do not support xpath selectors, although it has it's own functions to identify elements. For example:
@@ -55,6 +59,7 @@ cy.contains('button', 'Create').click()
 
 This would not only find the locator but also execute the click function on it.
 
+
 # Terminal commands
 
 - `yarn init` - initialize node.js
@@ -63,3 +68,7 @@ This would not only find the locator but also execute the click function on it.
 - `yarn install` - install all node.js dependencies
 - `yarn db:init` - initialize all database structure dependencies
 - `yarn dev` - start running the API server
+
+# Important links
+
+- [Faker](https://fakerjs.dev/) - dynamic random data generator
