@@ -346,9 +346,9 @@ Cypress.Commands.add('isRequired', (targetMessage) => {
 # Cypress functions
 
 - `.only` - allow to run only the tagged scenario
-- var - create a variable
-- const - create one imutable constant
--
+- `var` - create a variable
+- `const` - create one imutable constant
+- `context` - allow test cases organization per context inside a test suite
 
 # Important links
 
