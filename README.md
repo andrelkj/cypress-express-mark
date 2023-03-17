@@ -104,6 +104,78 @@ cy.contains('button', 'Create').click()
 
 This would not only find the locator but also execute the click function on it.
 
+### Validating duplicated task
+
+In order to allow dynamic validation to duplicated task we're going to add API requests to register que first entry and then validating it's recreation once more through IDE:
+
+1. First we're adding the task through an API POST request:
+
+````
+    // Given that I have one duplicated task
+    cy.request({
+      url: "http://localhost:3333/helper/tasks",
+      method: "POST",
+      body: { name: "Study JavaScript", is_done: false },
+    }).then((response) => {
+      expect(response.status).to.eq(201);
+    });
+````
+
+2. We're adding the same task once more through IDE:
+
+````
+    // While registering the same task again
+    cy.visit("http://localhost:8080");
+
+    cy.get('input[placeholder="Add a new Task"]').type("Study JavaScript");
+
+    cy.contains("button", "Create").click();
+````
+
+3. And validating the duplicated task alert message:
+  
+````
+    // Then the duplicated message should be displayed
+    cy.get(".swal2-html-container")
+      .should("be.visible")
+      .should("have.text", "Task already exists!");
+````
+
+**OBS.:** by doing this we should be able to validate the duplicated task scenario, although once the task is created running the test again will break, so we need to add the DELETE request to the API as well before executing it.
+
+````
+  it.only("should not allow duplicated tasks", () => {
+    cy.request({
+      url: "http://localhost:3333/helper/tasks",
+      method: "DELETE",
+      body: { name: "Study JavaScript" },
+    }).then((response) => {
+      expect(response.status).to.eq(204);
+    });
+    
+    // Given that I have one duplicated task
+    cy.request({
+      url: "http://localhost:3333/tasks",
+      method: "POST",
+      body: { name: "Study JavaScript", is_done: false },
+    }).then((response) => {
+      expect(response.status).to.eq(201);
+    });
+
+    // While registering the same task again
+    cy.visit("http://localhost:8080");
+
+    cy.get('input[placeholder="Add a new Task"]').type("Study JavaScript");
+
+    cy.contains("button", "Create").click();
+
+    // Then the duplicated message should be displayed
+    cy.get(".swal2-html-container")
+      .should("be.visible")
+      .should("have.text", "Task already exists!");
+  });
+````
+
 # Terminal commands
 
 - `yarn init` - initialize node.js
@@ -113,6 +185,10 @@ This would not only find the locator but also execute the click function on it.
 - `yarn db:init` - initialize all database structure dependencies
 - `yarn dev` - start running the API server
 
+# Cypress functions
+
+- `.only` - allow to run only the tagged scenario
+- 
 # Important links
 
 - [Faker](https://fakerjs.dev/) - dynamic random data generator
