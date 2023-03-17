@@ -50,7 +50,9 @@ When css selectors are not well identified and/or structured we need to add sele
 
 Faker can be used to generate dynamic random data which solve the repetitive and fixed data problem, although it now generates a new issue once it generate massive entries of information and at least for now do not meet our requirements to fill the input with tasks.
 
-Because of it we're not gonna be using faker in here. Instead we'll use fixed data trying a new approach to solve repetitive information issue by deleting data through API.
+### API DELETE Request
+
+We're not gonna be using faker in here. Instead we'll use fixed data trying a new approach to solve repetitive information issue by deleting data through API.
 
 To do it we'll:
 
@@ -72,6 +74,23 @@ cy.request({
 ```
 
 **OBS.:** the deletion should also be executed first in order to prepare the environment for the test execution, allowing us to analyse and validate the end result with a created task.
+
+### Expected behavior validation
+
+In here we'll validate if the task was actually created and added to the list, being displayed properly.
+
+In order to do so we'll:
+1. Get the element from css selector
+2. Validate if it is visible
+3. Validate the displayed text
+
+```
+cy.get("main div p")
+  .should("be.visible")
+  .should("have.text", "Read a Node.js book");
+```
+
+This should word although we're using the main element as selector so once a new item is added to the list our test should break because we're only considering one item of the hole component and now we'll have two or more inside of it.
 
 ### Xpath
 
