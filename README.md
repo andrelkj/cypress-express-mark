@@ -221,6 +221,67 @@ it("should not allow duplicated tasks", () => {
 ````
 **OBS.:** by doing that code will look for the values inside the variable or constant and use those values as input.
 
+#### Encapsulation
+
+We use encapsulation to diminish usage of repetitive elements. In order to do so we:
+1. Create cypress commands which will contain all necessary steps to execute the steps.
+
+Command to create a new task:
+
+````
+Cypress.Commands.add("createTask", (taskName) => {
+  cy.visit("http://localhost:8080");
+
+  cy.get('input[placeholder="Add a new Task"]').type(taskName);
+
+  cy.contains("button", "Create").click();
+});
+````
+
+Command to remove a task by it's name:
+
+````
+Cypress.Commands.add('removeTaskByName', (taskName) => {
+  cy.request({
+    url: "http://localhost:3333/helper/tasks",
+    method: "DELETE",
+    body: { name: taskName },
+  }).then((response) => {
+    expect(response.status).to.eq(204);
+  });
+})
+````
+
+Command to create a new task through API POST request:
+
+````
+Cypress.Commands.add('postTask', (task) => {
+  cy.request({
+    url: "http://localhost:3333/tasks",
+    method: "POST",
+    body: task,
+  }).then((response) => {
+    expect(response.status).to.eq(201);
+  });
+})
+````
+
+2. We now need to change the repetitive steps for the command name, entering the argument it should consider (taskName):
+
+````
+  it("should register a new task", () => {
+    const taskName = "Read a Node.js book";
+
+    cy.removeTaskByName(taskName);
+    cy.createTask(taskName);
+    cy.contains("main div p", taskName).should("be.visible");
+  });
+````
+
+3. After all we store all our created commands to the [support commands file](cypress/support/commands.js) to keep it organized.
+
+**OBS.:** encapsulation is a best practice that allow better steps definition and reuse through test cases.
+
 # Terminal commands
 
 - `yarn init` - initialize node.js
