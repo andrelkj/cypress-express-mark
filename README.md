@@ -176,6 +176,51 @@ In order to allow dynamic validation to duplicated task we're going to add API r
   });
 ````
 
+#### Variables and constants
+
+Variables can be used to define changable values, while constants define imutable values. Both can be used to identify a value and allow easier maintenance when change is needed.
+
+Here we're defining the const task which will containt values for name and is_done and then using the hole element or a piece of information inside of it (task.name):
+
+````
+it("should not allow duplicated tasks", () => {
+    const task = {
+      name: "Study JavaScript",
+      is_done: false,
+    };
+
+    cy.request({
+      url: "http://localhost:3333/helper/tasks",
+      method: "DELETE",
+      body: { name: task.name },
+    }).then((response) => {
+      expect(response.status).to.eq(204);
+    });
+
+    // Given that I have one duplicated task
+    cy.request({
+      url: "http://localhost:3333/tasks",
+      method: "POST",
+      body: task
+    }).then((response) => {
+      expect(response.status).to.eq(201);
+    });
+
+    // When registering the same task again
+    cy.visit("http://localhost:8080");
+
+    cy.get('input[placeholder="Add a new Task"]').type(task.name);
+
+    cy.contains("button", "Create").click();
+
+    // Then the duplicated message should be displayed
+    cy.get(".swal2-html-container")
+      .should("be.visible")
+      .should("have.text", "Task already exists!");
+  });
+````
+**OBS.:** by doing that code will look for the values inside the variable or constant and use those values as input.
+
 # Terminal commands
 
 - `yarn init` - initialize node.js
@@ -188,6 +233,8 @@ In order to allow dynamic validation to duplicated task we're going to add API r
 # Cypress functions
 
 - `.only` - allow to run only the tagged scenario
+- var - create a variable
+- const - create one imutable constant
 - 
 # Important links
 
