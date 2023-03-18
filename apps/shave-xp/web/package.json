@@ -1,0 +1,16 @@
+{
+  "name": "shavexp-web",
+  "version": "1.0.1",
+  "description": "Cypress eXperience Bootcamp",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Papito",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "nodemon": "^1.19.1"
+  }
+}

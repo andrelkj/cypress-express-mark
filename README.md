@@ -322,7 +322,7 @@ We'll use cypress invoke function which allow us to validate a defined property 
 
 We'll also encapsulate it inside a new command:
 
-````
+```
 Cypress.Commands.add('isRequired', (targetMessage) => {
   cy.get('@inputTask')
   .invoke("prop", "validationMessage")
@@ -330,7 +330,7 @@ Cypress.Commands.add('isRequired', (targetMessage) => {
     expect(targetMessage).to.eq(text);
   });
 })
-````
+```
 
 **OBS.:** in cypress we can store selectors inside variables by using `cy.get('input[placeholder="Add a new Task"]').as('inputTask')` so now everytime `@inputTask` is used it will refer to the input placeholder selector. Note: @ is important for cypress to understand the reference.
 
@@ -343,45 +343,45 @@ Here we're validating the CSS when a task is completed. In order to do it we nee
 3. And enter the element it needs to find and take action on:
 
 To use cypress internal locators we'll add:
-.contains which will try finding elements with the entered properties inside all HTML/CSS elements. 
-.parent that can be used in order to find parent elements like upper divs which the inicial element is inside of. 
+.contains which will try finding elements with the entered properties inside all HTML/CSS elements.
+.parent that can be used in order to find parent elements like upper divs which the inicial element is inside of.
 .find which will look for especific selectors and/or identificators inside this parent element
 .click which will execute the click upon the found element.
 
-````
+```
 cy.contains('p', taskName)
   .parent()
   .find('._listItemToggle_1kgm5_16')
   .click()
-````
+```
 
-**OBS.:** it's important to note that the element used in here isn't permanent and can change at any momment so we're going to improve it by using the regular expression * that allow using contains inside the CSS selector. For example:
+**OBS.:** it's important to note that the element used in here isn't permanent and can change at any momment so we're going to improve it by using the regular expression \* that allow using contains inside the CSS selector. For example:
 
 For the previous location `button[class*=ItemToggle] would allow finding all button elements that have itemToggle description inside the class even if there should be any other elements of text with it. Here the use o parent is really important once it allows looking for the element only inside the defined div.
 
 4. After all that we now validate it the element is checked as done through it's CSS style:
 
-````
+```
 ._listItemTextSelected_1kgm5_40 {
     text-decoration-line: line-through;
     color: var(--gray-300);
 }
-````
+```
 
 We'll also add the reset function in order to allow automation once if not we would need to deselect the option before each execution.
 
 1. Changing the const data value:
 
-````
+```
       const task = {
         name: 'Buy ketchup',
         is_done: false
       }
-````
+```
 
 2. Updating the new const callout inside each test:
 
-````
+```
       cy.removeTaskByName(task.name)
       cy.postTask(task)
 
@@ -394,7 +394,25 @@ We'll also add the reset function in order to allow automation once if not we wo
 
       cy.contains('p', task.name)
       .should('have.css', 'text-decoration-line', 'line-through')
-````
+```
+
+### Managing URLs through configuration file
+
+To avoid repetitive information and ease code maintenance it's a BEST PRACTICE to centralize environment urls inside [cypress configuration file](cypress.config.js). Once it is added we then need to change the url callout inside all other files.
+
+Base Url is already a cypress function
+
+```
+    baseUrl: "http://localhost:8080",
+```
+
+For different cases we can also define a new variable that will store url values, and we can even define an environment as well that could store infinite possible urls
+
+```
+    env: {
+      apiUrl: 'http://localhost:3333'
+    },
+```
 
 # Terminal commands
 

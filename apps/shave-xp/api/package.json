@@ -1,0 +1,45 @@
+{
+  "name": "shavexp-api",
+  "version": "1.0.1",
+  "description": "Cypress eXperience Bootcamp",
+  "author": "Fernando Papito",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node dist/shared/infra/http/server.js",
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "db:init": "npx typeorm migration:run",
+    "db:populate": " npx typeorm --config ormconfig.seeds.js migration:run",
+    "db": "npm run db:init && npm run db:populate"
+  },
+  "dependencies": {
+    "@types/multer": "^1.4.2",
+    "bcryptjs": "^2.4.3",
+    "celebrate": "^12.1.1",
+    "class-transformer": "^0.3.1",
+    "cors": "^2.8.5",
+    "date-fns": "^2.12.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "handlebars": "^4.7.6",
+    "jsonwebtoken": "^9.0.0",
+    "mime": "^2.4.5",
+    "moment": "^2.29.2",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.4.6",
+    "pg": "^8.7.1",
+    "rate-limiter-flexible": "^2.1.4",
+    "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.1.0",
+    "typeorm": "^0.2.41",
+    "uuidv4": "^6.0.7"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.0.0-pre.44"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
