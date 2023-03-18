@@ -36,4 +36,26 @@ describe("tasks", () => {
       cy.isRequired("This is a required field");
     });
   });
+
+  context("update", () => {
+    it("should mark task as done", () => {
+      const task = {
+        name: 'Buy ketchup',
+        is_done: false
+      }
+
+      cy.removeTaskByName(task.name)
+      cy.postTask(task)
+
+      cy.visit("http://localhost:8080");
+
+      cy.contains("p", task.name)
+        .parent()
+        .find("button[class*=ItemToggle]")
+        .click();
+
+      cy.contains('p', task.name)
+      .should('have.css', 'text-decoration-line', 'line-through')
+    });
+  });
 });

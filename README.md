@@ -334,6 +334,68 @@ Cypress.Commands.add('isRequired', (targetMessage) => {
 
 **OBS.:** in cypress we can store selectors inside variables by using `cy.get('input[placeholder="Add a new Task"]').as('inputTask')` so now everytime `@inputTask` is used it will refer to the input placeholder selector. Note: @ is important for cypress to understand the reference.
 
+### Validating tasks done
+
+Here we're validating the CSS when a task is completed. In order to do it we need to consider that Xpath cannot be used inside Cypress so we're using it's internal functions once more:
+
+1. We'll define a new update contexto which will contain the task conclusion scenario;
+2. We'll enter the local path in order to access the page (http:localhost:8080)
+3. And enter the element it needs to find and take action on:
+
+To use cypress internal locators we'll add:
+.contains which will try finding elements with the entered properties inside all HTML/CSS elements. 
+.parent that can be used in order to find parent elements like upper divs which the inicial element is inside of. 
+.find which will look for especific selectors and/or identificators inside this parent element
+.click which will execute the click upon the found element.
+
+````
+cy.contains('p', taskName)
+  .parent()
+  .find('._listItemToggle_1kgm5_16')
+  .click()
+````
+
+**OBS.:** it's important to note that the element used in here isn't permanent and can change at any momment so we're going to improve it by using the regular expression * that allow using contains inside the CSS selector. For example:
+
+For the previous location `button[class*=ItemToggle] would allow finding all button elements that have itemToggle description inside the class even if there should be any other elements of text with it. Here the use o parent is really important once it allows looking for the element only inside the defined div.
+
+4. After all that we now validate it the element is checked as done through it's CSS style:
+
+````
+._listItemTextSelected_1kgm5_40 {
+    text-decoration-line: line-through;
+    color: var(--gray-300);
+}
+````
+
+We'll also add the reset function in order to allow automation once if not we would need to deselect the option before each execution.
+
+1. Changing the const data value:
+
+````
+      const task = {
+        name: 'Buy ketchup',
+        is_done: false
+      }
+````
+
+2. Updating the new const callout inside each test:
+
+````
+      cy.removeTaskByName(task.name)
+      cy.postTask(task)
+
+      cy.visit("http://localhost:8080");
+
+      cy.contains("p", task.name)
+        .parent()
+        .find("button[class*=ItemToggle]")
+        .click();
+
+      cy.contains('p', task.name)
+      .should('have.css', 'text-decoration-line', 'line-through')
+````
+
 # Terminal commands
 
 - `yarn init` - initialize node.js
