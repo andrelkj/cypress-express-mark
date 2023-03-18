@@ -1,6 +1,14 @@
 /// <reference types="cypress" />
 
 describe("tasks", () => {
+  let testData;
+
+  before(() => {
+    cy.fixture("tasks").then((t) => {
+      testData = t;
+    });
+  });
+
   context("register", () => {
     it("should register a new task", () => {
       const taskName = "Read a Node.js book";
@@ -11,10 +19,7 @@ describe("tasks", () => {
     });
 
     it("should not allow duplicated tasks", () => {
-      const task = {
-        name: "Study JavaScript",
-        is_done: false,
-      };
+      const task = testData.dup
 
       cy.removeTaskByName(task.name);
 
@@ -40,12 +45,12 @@ describe("tasks", () => {
   context("update", () => {
     it("should mark task as done", () => {
       const task = {
-        name: 'Buy ketchup',
-        is_done: false
-      }
+        name: "Buy ketchup",
+        is_done: false,
+      };
 
-      cy.removeTaskByName(task.name)
-      cy.postTask(task)
+      cy.removeTaskByName(task.name);
+      cy.postTask(task);
 
       cy.visit("/");
 
@@ -54,20 +59,23 @@ describe("tasks", () => {
         .find("button[class*=ItemToggle]")
         .click();
 
-      cy.contains('p', task.name)
-      .should('have.css', 'text-decoration-line', 'line-through')
+      cy.contains("p", task.name).should(
+        "have.css",
+        "text-decoration-line",
+        "line-through"
+      );
     });
   });
 
   context("deletion", () => {
     it("should remove a task", () => {
       const task = {
-        name: 'Study JavaScript',
-        is_done: false
-      }
+        name: "Study JavaScript",
+        is_done: false,
+      };
 
-      cy.removeTaskByName(task.name)
-      cy.postTask(task)
+      cy.removeTaskByName(task.name);
+      cy.postTask(task);
 
       cy.visit("/");
 
@@ -76,8 +84,7 @@ describe("tasks", () => {
         .find("button[class*=ItemDelete]")
         .click();
 
-      cy.contains('p', task.name)
-      .should('not.exist')
+      cy.contains("p", task.name).should("not.exist");
     });
   });
 });

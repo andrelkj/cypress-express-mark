@@ -414,6 +414,45 @@ For different cases we can also define a new variable that will store url values
     },
 ```
 
+### Fixtures and hooks
+
+Fixtures allow code organization by storing dynamic steps and/or informative data that do not have direct influence to be the test case but represents or support part of it's execution. Like in [tasks.json](cypress/fixtures/tasks.json)
+
+In here we defined the variable dup which will represent a support variable containing all duplicated task scenario data. Instead of using the name and is_done inside the test case we'll only enter dup as value.
+
+```
+{
+  "dup": {
+    "name": "Study Typescript",
+    "is_done": false
+  }
+}
+```
+
+Hooks in the other hand are steps that should be executed before and/or after each test case, allow pre-configuration or analysis of each scenario whithout the need to define all the steps for every test case. Note that we called the fixture file tasks inside our hook.
+
+```
+  let testData;
+
+  before(() => {
+    cy.fixture("tasks").then((t) => {
+      testData = t;
+    });
+  });
+```
+
+**OBS.:** by using hooks it's importance to consider the individuallity and/or independency of each test case, validating if this is really needed or not.
+
+This would allow us to call dup variable with all it's data inside our test case:
+
+```
+    it("should not allow duplicated tasks", () => {
+      const task = testData.dup
+    })
+```
+
+**OBS.:** it should return the exact same old response, but now in a more organized and manageable way.
+
 # Terminal commands
 
 - `yarn init` - initialize node.js
