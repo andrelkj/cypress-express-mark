@@ -453,7 +453,7 @@ This would allow us to call dup variable with all it's data inside our test case
 
 **OBS.:** it should return the exact same old response, but now in a more organized and manageable way.
 
-### Viewport
+## Viewport
 
 Viewport is used to inform specific resolution for executing the tests, you can use it inside one specific test case by using:
 
@@ -474,6 +474,12 @@ beforeEach(() => {
     viewportHeight: 1080,
 ```
 
+## CLI and Multi-browser
+
+The final tests, when all is working fine and ready to go, should be executed through CLI because more complex analysis can be done through it considering regression metrics.
+
+**OBS.:** implementation and test development steps should be done through cypress GUI once it would give you feedbacks and alerts for issues and problems during the execution, allowing a better understand and ease to fix and manage those issues.
+
 # Terminal commands
 
 - `yarn init` - initialize node.js
@@ -482,6 +488,7 @@ beforeEach(() => {
 - `yarn install` - install all node.js dependencies
 - `yarn db:init` - initialize all database structure dependencies
 - `yarn dev` - start running the API server
+- `yarn cypress run --browser (browser name)` - allow test execution in a specific browser
 
 # Cypress functions
 
