@@ -15,7 +15,7 @@ describe("tasks", () => {
 
       cy.removeTaskByName(taskName);
       cy.createTask(taskName);
-      cy.contains("main div p", taskName).should("be.visible");
+      cy.contains("main div p", "Intentional error").should("be.visible");
     });
 
     it("should not allow duplicated tasks", () => {
