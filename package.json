@@ -7,6 +7,9 @@
   "license": "MIT",
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
-    "cypress": "12.2.0"
+    "@shelex/cypress-allure-plugin": "^2.36.0",
+    "allure-commandline": "^2.21.0",
+    "cypress": "12.2.0",
+    "http-server": "^14.1.1"
   }
 }

@@ -480,6 +480,32 @@ The final tests, when all is working fine and ready to go, should be executed th
 
 **OBS.:** implementation and test development steps should be done through cypress GUI once it would give you feedbacks and alerts for issues and problems during the execution, allowing a better understand and ease to fix and manage those issues.
 
+## Allure reports
+
+After executing our tests through CLI we'll now use allure reporst to manage and store all our test outputs. It allows a more detailed and organized test report. Here we're using [cypress alure plugin](https://github.com/Shelex/cypress-allure-plugin) which will allow us to connect our cypress result outputs to the allure reporter.
+
+Some steps needed to use it:
+1. We'll follow up all steps to install and configurate cypress alure plugion from the link
+2. Execute the test with `--env allure=true` in order to generate result reports
+
+**OBS.:** test outputs are stored inside [allure-results file](allure-results/) although we'll now need allure's binary in order to create a more visual report. For this Java 8 is needed, and we're going to install it as well.
+
+3. Install allure commandline entering `yarn add allure-commandline -D` and Java 8 to allow allure's binary execution through the commandline
+
+**OBS.:** `yarn allure` command can be used to test if it's installed or not
+
+4. Run allure `yarn allure serve` which will generate a server with all the output reports
+
+### Creating a report history
+
+We're going to use http-server library in order to generate our local report server.
+
+1. We generated a local server file inside the project `yarn allure generate ./allure-results/ -o ./report-server` that will store all outputs inside ./report-server file.
+2. We installed the http-server lib as a dev dependency `yarn add http-server -D`
+3. Execute the server inside our report file `yarn http-serve report-server/`
+
+**OBS.:** a new local port will be generated, accessing it will now allow a local allure report that can be stored, managed and used as you want to in order to allow managing reports history.
+
 # Terminal commands
 
 - `yarn init` - initialize node.js
@@ -489,6 +515,10 @@ The final tests, when all is working fine and ready to go, should be executed th
 - `yarn db:init` - initialize all database structure dependencies
 - `yarn dev` - start running the API server
 - `yarn cypress run --browser (browser name)` - allow test execution in a specific browser
+- `yarn cypress run --env allure=true` - execute cypress test with allure report active
+- `yarn add allure-commandline -D` - install allure commandline
+- `yarn allure serve` - run allure server to generate and manage test reports
+- `yarn allure generate ./allure-results/ -o ./report-server` - it will generate a local server to store outputs
 
 # Cypress functions
 
