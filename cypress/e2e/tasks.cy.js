@@ -19,7 +19,7 @@ describe("tasks", () => {
     });
 
     it("should not allow duplicated tasks", () => {
-      const task = testData.dup
+      const task = testData.dup;
 
       cy.removeTaskByName(task.name);
 

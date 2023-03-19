@@ -453,6 +453,27 @@ This would allow us to call dup variable with all it's data inside our test case
 
 **OBS.:** it should return the exact same old response, but now in a more organized and manageable way.
 
+### Viewport
+
+Viewport is used to inform specific resolution for executing the tests, you can use it inside one specific test case by using:
+
+1. `cy.viewport(1920, 1080)` which will change the viewport only during this execution.
+
+2. beforeEach() which will apply viewport to all test case before it's execution.
+
+```
+beforeEach(() => {
+   cy.viewport(1920, 1080)
+   })
+```
+
+3. Globally inside [cypress configuration file](cypress.config.js) which will be applied to everything
+
+```
+    viewportWidth: 1920,
+    viewportHeight: 1080,
+```
+
 # Terminal commands
 
 - `yarn init` - initialize node.js
